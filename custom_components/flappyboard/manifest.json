@@ -1,0 +1,11 @@
+{
+  "domain": "flappyboard",
+  "name": "FlappyBoard",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://flappyboard.app",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "requirements": [],
+  "version": "1.0.0"
+}

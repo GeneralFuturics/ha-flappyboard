@@ -1,0 +1,30 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to FlappyBoard",
+        "data": {
+          "name": "Display name",
+          "host": "Host or IP address",
+          "port": "Port",
+          "token": "Bearer token",
+          "fingerprint": "TLS certificate fingerprint"
+        },
+        "data_description": {
+          "host": "IP address or hostname of the device running FlappyBoard",
+          "token": "Bearer token shown in the FlappyBoard Settings screen (long-press the board)",
+          "fingerprint": "SHA-256 fingerprint from the FlappyBoard Settings screen. Strongly recommended — enables certificate pinning so the connection cannot be intercepted. Leave blank to skip (not recommended)."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect. Check the host, port, and token.",
+      "fingerprint_mismatch": "The certificate fingerprint does not match. Copy the fingerprint exactly from the FlappyBoard Settings screen.",
+      "invalid_fingerprint": "Fingerprint must be a hex string (with or without colons).",
+      "unknown": "Unexpected error — check the Home Assistant logs for details."
+    },
+    "abort": {
+      "already_configured": "This FlappyBoard is already configured."
+    }
+  }
+}
