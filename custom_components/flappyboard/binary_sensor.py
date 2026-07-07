@@ -29,7 +29,7 @@ class FlappyBoardConnectivitySensor(CoordinatorEntity[FlappyBoardCoordinator], B
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
             name=entry.title,
-            manufacturer="FlappyBoard",
+            manufacturer="Flappy Board",
             model="Split-Flap Display",
         )
 

@@ -22,7 +22,7 @@ async def async_setup_entry(
 
 
 class FlappyBoardNotifyEntity(NotifyEntity):
-    """Notify entity that sends messages to a FlappyBoard display.
+    """Notify entity that sends messages to a Flappy Board display.
 
     Use notify.send_message in automations:
 
@@ -43,7 +43,7 @@ class FlappyBoardNotifyEntity(NotifyEntity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
             name=entry.title,
-            manufacturer="FlappyBoard",
+            manufacturer="Flappy Board",
             model="Split-Flap Display",
         )
 

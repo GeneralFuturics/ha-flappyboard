@@ -1,11 +1,12 @@
 {
   "domain": "flappyboard",
-  "name": "FlappyBoard",
-  "codeowners": [],
+  "name": "Flappy Board",
+  "codeowners": ["@GeneralFuturics"],
   "config_flow": true,
-  "documentation": "https://flappyboard.app",
+  "documentation": "https://github.com/GeneralFuturics/ha-flappyboard",
   "integration_type": "device",
   "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/GeneralFuturics/ha-flappyboard/issues",
   "requirements": [],
   "version": "1.0.0"
 }

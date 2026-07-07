@@ -1,12 +1,12 @@
 send_message:
   name: Send message
   description: >-
-    Send a message to a FlappyBoard display with full control over animation,
+    Send a message to a Flappy Board display with full control over animation,
     flip speed, and alignment.
   fields:
     device_id:
       name: Device
-      description: The FlappyBoard display to send the message to.
+      description: The Flappy Board display to send the message to.
       required: true
       selector:
         device:

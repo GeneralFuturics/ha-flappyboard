@@ -41,14 +41,14 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def _make_ssl_param(fingerprint: str | None) -> aiohttp.Fingerprint | ssl.SSLContext:
-    """Return an aiohttp SSL parameter for a self-signed FlappyBoard certificate.
+    """Return an aiohttp SSL parameter for a self-signed Flappy Board certificate.
 
     When a SHA-256 fingerprint is provided (hex, with or without colons) we use
     aiohttp.Fingerprint, which pins to that exact certificate — the right security
     model for a self-signed local device cert.
 
     Without a fingerprint we fall back to ssl=False and log a prominent warning.
-    Users should provide the fingerprint shown in the FlappyBoard Settings screen.
+    Users should provide the fingerprint shown in the Flappy Board Settings screen.
     """
     if fingerprint:
         hex_only = fingerprint.replace(":", "").lower()
@@ -58,8 +58,8 @@ def _make_ssl_param(fingerprint: str | None) -> aiohttp.Fingerprint | ssl.SSLCon
             raise ValueError(f"Invalid TLS fingerprint '{fingerprint}': {err}") from err
 
     _LOGGER.warning(
-        "FlappyBoard: no TLS fingerprint configured — certificate authenticity is "
-        "not verified. Enter the SHA-256 fingerprint from the FlappyBoard Settings "
+        "Flappy Board: no TLS fingerprint configured — certificate authenticity is "
+        "not verified. Enter the SHA-256 fingerprint from the Flappy Board Settings "
         "screen to enable certificate pinning."
     )
     ctx = ssl.create_default_context()
@@ -69,7 +69,7 @@ def _make_ssl_param(fingerprint: str | None) -> aiohttp.Fingerprint | ssl.SSLCon
 
 
 class FlappyBoardClient:
-    """HTTPS client for the FlappyBoard REST API."""
+    """HTTPS client for the Flappy Board REST API."""
 
     def __init__(
         self,
@@ -156,7 +156,7 @@ def _coordinator_for_device(hass: HomeAssistant, device_id: str) -> FlappyBoardC
         None,
     )
     if entry_id is None:
-        raise ServiceValidationError(f"Device '{device_id}' is not a configured FlappyBoard")
+        raise ServiceValidationError(f"Device '{device_id}' is not a configured Flappy Board")
     return hass.data[DOMAIN][entry_id]
 
 

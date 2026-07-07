@@ -25,7 +25,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 
 
 class FlappyBoardConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for FlappyBoard."""
+    """Config flow for Flappy Board."""
 
     VERSION = 1
 
@@ -51,7 +51,7 @@ class FlappyBoardConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             except aiohttp.ClientError:
                 errors["base"] = "cannot_connect"
             except Exception:
-                _LOGGER.exception("Unexpected error during FlappyBoard setup")
+                _LOGGER.exception("Unexpected error during Flappy Board setup")
                 errors["base"] = "unknown"
             else:
                 return self.async_create_entry(

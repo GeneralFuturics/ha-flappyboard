@@ -15,7 +15,7 @@ class FlappyBoardCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         super().__init__(
             hass,
             _LOGGER,
-            name=f"FlappyBoard {board_name}",
+            name=f"Flappy Board {board_name}",
             update_interval=timedelta(seconds=30),
         )
         self.client = client
@@ -24,4 +24,4 @@ class FlappyBoardCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         try:
             return await self.client.async_get_status()
         except Exception as err:
-            raise UpdateFailed(f"Error communicating with FlappyBoard: {err}") from err
+            raise UpdateFailed(f"Error communicating with Flappy Board: {err}") from err

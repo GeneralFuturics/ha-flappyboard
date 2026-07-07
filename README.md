@@ -1,30 +1,38 @@
-# FlappyBoard for Home Assistant
+# Flappy Board for Home Assistant
 
-A Home Assistant custom integration for [FlappyBoard](https://flappyboard.app) — a split-flap display simulator for iOS, iPadOS, and tvOS.
+A Home Assistant custom integration for [Flappy Board](https://flappyboard.app) — a split-flap display simulator for iOS, iPadOS, and tvOS.
 
 ## Installation
+
+### HACS (recommended)
+
+1. In HACS, open the menu (⋮) → **Custom repositories**.
+2. Add `https://github.com/GeneralFuturics/ha-flappyboard` with type **Integration**.
+3. Search for **Flappy Board** in HACS and install it.
+4. Restart Home Assistant.
+5. Go to **Settings → Devices & Services → Add Integration** and search for **Flappy Board**.
+
+[![Open your Home Assistant instance and open this repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=GeneralFuturics&repository=ha-flappyboard&category=integration)
+
+### Manual
 
 1. Copy the `custom_components/flappyboard/` directory into your Home Assistant config directory:
    ```
    <config>/custom_components/flappyboard/
    ```
 2. Restart Home Assistant.
-3. Go to **Settings → Devices & Services → Add Integration** and search for **FlappyBoard**.
-
-### HACS
-
-Add this repository as a custom repository in HACS (type: Integration), then install from there.
+3. Go to **Settings → Devices & Services → Add Integration** and search for **Flappy Board**.
 
 ## Setup
 
-During setup you'll need two values from the FlappyBoard app — long-press the board to open Settings:
+During setup you'll need two values from the Flappy Board app — long-press the board to open Settings:
 
 | Field | Description |
 |-------|-------------|
 | **Display name** | Any name you choose (e.g. "Living Room Board") |
-| **Host or IP address** | IP address of the device running FlappyBoard |
+| **Host or IP address** | IP address of the device running Flappy Board |
 | **Port** | Default `8443` |
-| **Bearer token** | Shown in the FlappyBoard Settings screen |
+| **Bearer token** | Shown in the Flappy Board Settings screen |
 | **TLS certificate fingerprint** | SHA-256 fingerprint shown in Settings. Strongly recommended — enables certificate pinning. Leave blank to skip (not recommended). |
 
 Each configured board appears as a single device with three entities.
@@ -83,7 +91,7 @@ data:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `device_id` | string | **Required.** The FlappyBoard device to target. Use the device picker in the UI. |
+| `device_id` | string | **Required.** The Flappy Board device to target. Use the device picker in the UI. |
 | `message` | string | **Required.** Text to display. `\n` creates additional rows. Supports inline color tags: `<color='red'>TEXT</color>` |
 | `flip_speed` | float | Speed multiplier. `1.0` = default, `2.0` = twice as fast, `0.5` = half speed. Omit to use the board's configured default. |
 | `transition_animation` | string | How cells animate when the message appears. See options below. Omit to use the board's configured default. |
@@ -158,6 +166,6 @@ automation:
 
 ## Security
 
-FlappyBoard uses a self-signed TLS certificate. When a fingerprint is configured, the integration uses `aiohttp.Fingerprint` to pin to that exact certificate — the same pinning mechanism used by the official FlappyBoard CLI client. Without a fingerprint, certificate authenticity is not verified and a warning is logged.
+Flappy Board uses a self-signed TLS certificate. When a fingerprint is configured, the integration uses `aiohttp.Fingerprint` to pin to that exact certificate — the same pinning mechanism used by the official Flappy Board CLI client. Without a fingerprint, certificate authenticity is not verified and a warning is logged.
 
-The fingerprint is shown in the FlappyBoard Settings screen (long-press the board on iOS/iPadOS, or use the Play/Pause command on tvOS).
+The fingerprint is shown in the Flappy Board Settings screen (long-press the board on iOS/iPadOS, or use the Play/Pause command on tvOS).
