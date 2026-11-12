@@ -33,7 +33,7 @@ class FlappyBoardConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            from . import FlappyBoardClient
+            from . import FlappyBoardClient, InvalidAuth
 
             fingerprint = user_input.get(CONF_FINGERPRINT) or None
             try:
@@ -44,6 +44,9 @@ class FlappyBoardConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     fingerprint=fingerprint,
                 )
                 await client.async_get_status()
+                await client.async_validate_token()
+            except InvalidAuth:
+                errors[CONF_TOKEN] = "invalid_auth"
             except ValueError:
                 errors[CONF_FINGERPRINT] = "invalid_fingerprint"
             except aiohttp.ServerFingerprintMismatch:

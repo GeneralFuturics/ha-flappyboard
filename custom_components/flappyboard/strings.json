@@ -18,8 +18,9 @@
       }
     },
     "error": {
-      "cannot_connect": "Unable to connect. Check the host, port, and token.",
+      "cannot_connect": "Unable to connect. Check the host and port.",
       "fingerprint_mismatch": "The certificate fingerprint does not match. Copy the fingerprint exactly from the Flappy Board Settings screen.",
+      "invalid_auth": "The board rejected the bearer token. Copy it exactly from the Flappy Board Settings screen.",
       "invalid_fingerprint": "Fingerprint must be a hex string (with or without colons).",
       "unknown": "Unexpected error — check the Home Assistant logs for details."
     },

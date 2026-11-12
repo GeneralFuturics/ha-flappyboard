@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import logging
-import ssl
-from typing import Any
+from typing import Any, Literal
 
 import aiohttp
 import voluptuous as vol
@@ -40,15 +39,18 @@ SERVICE_SEND_MESSAGE_SCHEMA = vol.Schema(
 _LOGGER = logging.getLogger(__name__)
 
 
-def _make_ssl_param(fingerprint: str | None) -> aiohttp.Fingerprint | ssl.SSLContext:
+def _make_ssl_param(fingerprint: str | None) -> aiohttp.Fingerprint | Literal[False]:
     """Return an aiohttp SSL parameter for a self-signed Flappy Board certificate.
 
     When a SHA-256 fingerprint is provided (hex, with or without colons) we use
     aiohttp.Fingerprint, which pins to that exact certificate — the right security
     model for a self-signed local device cert.
 
-    Without a fingerprint we fall back to ssl=False and log a prominent warning.
-    Users should provide the fingerprint shown in the Flappy Board Settings screen.
+    Without a fingerprint we fall back to ssl=False (no certificate verification)
+    and log a prominent warning. Returning False rather than building an
+    SSLContext avoids loading the system CA bundle, which is blocking disk I/O
+    on the event loop. Users should provide the fingerprint shown in the
+    Flappy Board Settings screen.
     """
     if fingerprint:
         hex_only = fingerprint.replace(":", "").lower()
@@ -62,10 +64,11 @@ def _make_ssl_param(fingerprint: str | None) -> aiohttp.Fingerprint | ssl.SSLCon
         "not verified. Enter the SHA-256 fingerprint from the Flappy Board Settings "
         "screen to enable certificate pinning."
     )
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
-    return ctx
+    return False
+
+
+class InvalidAuth(Exception):
+    """The board rejected the bearer token."""
 
 
 class FlappyBoardClient:
@@ -97,6 +100,26 @@ class FlappyBoardClient:
             ) as resp:
                 resp.raise_for_status()
                 return await resp.json()
+
+    async def async_validate_token(self) -> None:
+        """Raise InvalidAuth if the board rejects the bearer token.
+
+        /status is unauthenticated, so this calls /config, which checks the
+        token before anything else. A 402 means the token was accepted but the
+        board's tier doesn't include that endpoint, so it still counts as valid.
+        """
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                f"{self._base_url}/config",
+                headers=self._headers(),
+                ssl=self._ssl,
+                timeout=aiohttp.ClientTimeout(total=10),
+            ) as resp:
+                if resp.status == 401:
+                    raise InvalidAuth
+                if resp.status == 402:
+                    return
+                resp.raise_for_status()
 
     async def async_send_message(
         self,
